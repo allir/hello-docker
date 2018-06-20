@@ -1,0 +1,8 @@
+FROM gcc as build
+COPY ./build /build
+WORKDIR /build
+RUN gcc -static -Os -nostartfiles -fno-asynchronous-unwind-tables -o hello hello.c
+
+FROM scratch
+COPY --from=build /build/hello /hello
+ENTRYPOINT [ "/hello" ]
